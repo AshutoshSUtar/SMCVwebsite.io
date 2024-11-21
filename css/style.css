@@ -840,21 +840,5 @@ color-mix(in srgb, var(--dark), transparent 80%);
     font-weight: bold;
 }
 
-/* Default to hide both */
-.strategic-investment-framework {
-    display: none;
-}
 
-.strategic-investment-framework-small {
-    display: block;
-}
 
-/* For large screens (≥1024px), show h6 and hide h1 */
-@media (min-width: 1024px) {
-    .strategic-investment-framework {
-        display: block;
-    }
-    .strategic-investment-framework-small {
-        display: none;
-    }
-}

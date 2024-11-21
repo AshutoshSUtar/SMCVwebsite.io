@@ -83,7 +83,7 @@
     <div class="container-fluid p-0 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
        
-            <div class="carousel-inner" style="height: 590px;">
+            <div class="carousel-inner" style="height: 78vh;">
                 <div class="carousel-item active">
                     <img class="w-100" src="img/ki4.jpg" alt="Image">
                     <div class="carousel-caption" >
@@ -325,10 +325,35 @@
                 </h6>
                 
                 <!-- Strategic Investment Framework for smaller screens -->
-                <h1 style="    color: #009CFF !important;" class="display-6 mb-4 strategic-investment-framework-small">
+                <h1 style="color: #009CFF !important;" class="display-6 mb-4 strategic-investment-framework-small">
                     Strategic Investment Framework
                 </h1>
             </div>
+            
+            <style>
+                /* Default to hide <h6> and show <h1> for small screens */
+                .strategic-investment-framework {
+                    display: none;
+                }
+            
+                .strategic-investment-framework-small {
+                    display: block;
+                }
+            
+                /* Media query for large screens (≥1024px) */
+                @media (min-width: 1024px) {
+                    /* Show <h6> for large screens */
+                    .strategic-investment-framework {
+                        display: block;
+                    }
+            
+                    /* Hide <h1> for large screens */
+                    .strategic-investment-framework-small {
+                        display: none;
+                    }
+                }
+            </style>
+            
             
             <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
                 <div class="testimonial-item bg-light rounded p-4">
