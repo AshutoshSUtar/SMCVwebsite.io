@@ -555,6 +555,7 @@
 }
 
 .footer .copyright {
+    margin-top: 24px;
     padding: 25px 0;
     font-size: 15px;
     border-top: 1px solid rgba(256, 256, 256, 0.1);
@@ -837,4 +838,23 @@ color-mix(in srgb, var(--dark), transparent 80%);
     color: #007bff; /* Primary color */
     font-size: 14px; /* Increase font size for a bold look */
     font-weight: bold;
+}
+
+/* Default to hide both */
+.strategic-investment-framework {
+    display: none;
+}
+
+.strategic-investment-framework-small {
+    display: block;
+}
+
+/* For large screens (≥1024px), show h6 and hide h1 */
+@media (min-width: 1024px) {
+    .strategic-investment-framework {
+        display: block;
+    }
+    .strategic-investment-framework-small {
+        display: none;
+    }
 }
