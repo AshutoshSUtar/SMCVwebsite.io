@@ -115,7 +115,7 @@
   
 	@media (min-width: 1024px) {
 	  .responsive-margin {
-		margin-top: 68px;
+		/* margin-top: 68px; */
 	  }
 	}
   </style>
@@ -315,11 +315,22 @@
 		<div class="container">
 			<div class="row g-5">
 				<div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-					<div class="responsive-margin">
-						<!-- <img class="img-fluid" src="img/ai-generated-8490532_640.webp" alt> -->
-						<img class="img-fluid" src="img/stratagy.jpg" alt>
-
+					<div class="responsive-margin" style="text-align: center;">
+						<img class="img-fluid" src="img/aboutdataimage.jpg" alt>
 					</div>
+					
+					<style>
+						.responsive-margin img {
+							/* height: 500px; */
+						}
+					
+						@media (max-width: 768px) {
+							.responsive-margin img {
+								height: auto; /* Remove height for smaller screens */
+							}
+						}
+					</style>
+					
 				</div>
 				<div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
 					<div class="h-100">
@@ -689,8 +700,8 @@
                 <!-- Quick Links Section -->
                 <div  class="col-lg-4 col-md-6">
                     <h5 class="text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">Home</a>
-                    <a class="btn btn-link" href="">Who We Are</a>
+                    <a class="btn btn-link" href="index.html">Home</a>
+                    <a class="btn btn-link" href="about.html">Who We Are</a>
                     <a class="btn btn-link" href="contact.html">Contact Us</a>
                 </div>
 
