@@ -30,6 +30,13 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery -->
+
+<!-- Toastr -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 
 <body>
@@ -139,25 +146,29 @@
                             style="border:0; width: 100%; height: 400px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <div class="col-lg-6">
-                        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="400">
+                        <!-- action="forms/contact.php"  -->
+                        <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="400">
                             <div class="row gy-4">
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                                    <input type="text" name="name"  id="name" class="form-control" placeholder="Your Name" required="">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="">
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                                    <input type="text" class="form-control" name="subject"  id="subject" placeholder="Subject" required="">
                                 </div>
                                 <div class="col-md-12">
-                                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                                    <textarea class="form-control" name="message" rows="6" id="message" placeholder="Message" required=""></textarea>
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <div class="loading">Loading</div>
                                     <div class="error-message"></div>
                                     <div class="sent-message">Your message has been sent. Thank you!</div>
-                                    <button type="submit">Send Message</button>
+                                    <!-- <button type="submit">Send Message</button> -->
+
+                                    <button  type="submit" id="submit-button"><span>Send Message</span></button>
+
                                 </div>
                             </div>
                         </form>
@@ -165,6 +176,142 @@
                 </div>
             </div>
         </section>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+        <script type="text/javascript">
+            (function () {
+                // https://dashboard.emailjs.com/admin/account
+                emailjs.init({
+                    publicKey: "jYLYI73L9SZVhOHbR",
+                });
+            })();
+        </script>
+        <script>
+            $(document).ready(function () {
+                // Restrict input to alphabets only
+                $('#name').on('input', function () {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Allow only alphabets and spaces
+                });
+                $('#message').on('input', function () {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Allow only alphabets and spaces
+                });
+                $('#email').on('input', function () {
+                   this.value = this.value.replace(/[^a-zA-Z0-9@._-]/g, ''); // Allow only valid email characters
+               });
+
+                $('#contact-form').on('submit', function (e) {
+                    e.preventDefault(); // Prevent form submission
+    
+                    let isValid = true;
+    
+                    // Validate Name
+                    const name = $('#name').val();
+                    const email = $('#email').val();
+                    // const mobile = $('#phone').val();
+                    const subject = $('#subject').val();
+                    // const city = $('#city').val();
+                    const message = $('#message').val();
+    
+                    if (!name) {
+                        toastr.error('Please enter your name.');
+                        isValid = false;
+                    } else if (/^\s*$/.test(name)) { // Check if name is only spaces
+                        toastr.error('Please enter your name.');
+                        isValid = false;
+                    } else if (!email) {
+                        toastr.error('Please enter your email ID.');
+                        isValid = false;
+                    } 
+                    else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                        toastr.error('Please enter valid email ID.');
+                        isValid = false;
+                    } else  if (!subject) {
+                        toastr.error('Please enter your subject.');
+                        isValid = false;
+                    } else if (/^\s*$/.test(subject)) { // Check if subject is only spaces
+                        toastr.error('Please enter your subject.');
+                        isValid = false;
+                    }
+                    // else if (!mobile) {
+                    //     toastr.error('Please enter your mobile number.');
+                    //     isValid = false;
+                    // } else if (!/^\d{10}$/.test(mobile)) {
+                    //     toastr.error('Please enter valid mobile number.');
+                    //     isValid = false;
+                    // } 
+                    
+                    // else if (!city) {
+                    //     toastr.error('Please enter your city.');
+                    //     isValid = false;
+                    // }
+                    //  else if (/^\s*$/.test(city)) { // Check if name is only spaces
+                    //     toastr.error('Please enter your city.');
+                    //     isValid = false;
+                    // }
+                     else if (!message) {
+                        toastr.error('Please enter your message.');
+                        isValid = false;
+                    } else if (/^\s*$/.test(message)) { // Check if name is only spaces
+                        toastr.error('Please enter your message.');
+                        isValid = false;
+                    }
+                    // Clear all fields when reset button is clicked
+                    if (isValid) {
+                        var buttonLoader = $('#button-loader');
+                        var submitButton = $('#submit-button span');
+    
+                        // Show loader and update button text
+                        submitButton.text('Sending...');
+                        buttonLoader.show();
+    
+                        emailjs.sendForm('service_ipfifew', 'template_f7b5434', '#contact-form')
+                            .then(function (response) {
+                                buttonLoader.hide();
+                                submitButton.text('Send Message');
+    
+                                toastr.success('Your information has been sent successfully!');
+                                $('#contact-form')[0].reset(); // Clear form after success
+                                // Send confirmation email to the user
+                                var confirmationParams = {
+    subject: subject, // Matches {{subject}}
+    message: message, // Matches {{message}}
+    name: name,       // Matches {{name}}
+    email: email,     // Matches {{email}}
+};
+
+    
+console.log('Confirmation Params:', confirmationParams);
+                                
+                                emailjs.send('service_ipfifew', 'template_f7b5434', confirmationParams)
+                                    .then(function (response) {
+                                        console.log('Confirmation email sent successfully');
+                                    }, function (error) {
+                                        console.error('Failed to send confirmation email', error);
+                                    });
+                            },
+                                function (error) {
+                                    buttonLoader.hide();
+                                    submitButton.text('Send Message');
+    
+                                    toastr.error('Failed to submit information, please try again later.');
+                                });
+                    }
+                });
+    
+                // Reset form
+                // $('#reset_btn').on('click', function () {
+                //     $('#contact-form')[0].reset();
+                // });
+            });
+     
+
+            // 
+            // 
+
+            
+     
+     
+     </script>
         
         <!-- Google Map -->
         <!-- <div class="container-xxl pt-5 px-0 wow fadeIn" data-wow-delay="0.1s">
@@ -253,6 +400,7 @@
 
 
     <!-- JavaScript Libraries -->
+     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
